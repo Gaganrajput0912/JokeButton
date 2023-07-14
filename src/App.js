@@ -1,25 +1,54 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { selectCategory } from "./actions";
+import JokeOverlay from "./JokeOverlay";
+import "./App.css"; // Import the App.css file
 
-function App() {
+const categories = [
+  "animal",
+  "career",
+  "celebrity",
+  "dev",
+  "explicit",
+  "fashion",
+  "food",
+  "history",
+  "money",
+  "movie",
+  "music",
+  "political",
+  "religion",
+  "science",
+  "sport",
+  "travel",
+];
+
+const App = () => {
+  const dispatch = useDispatch();
+  const showOverlay = useSelector((state) => state.showOverlay);
+
+  const handleCategoryClick = (category) => {
+    dispatch(selectCategory(category));
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div className="grid-container">
+      {" "}
+      {/* Apply grid layout */}
+      {categories.map((category) => (
+        <button
+          key={category}
+          onClick={() => handleCategoryClick(category)}
+          className="button" // Apply the button class
         >
-          Learn React
-        </a>
-      </header>
+          <span>{category}</span>
+          <br></br>
+          Unlimited jokes on {category}
+        </button>
+      ))}
+      {showOverlay && <JokeOverlay />}
     </div>
   );
-}
+};
 
 export default App;
